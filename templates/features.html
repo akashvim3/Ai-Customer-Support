@@ -1,0 +1,504 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Features - AI Customer Support Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+.features-hero {
+    background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%);
+    padding: 100px 0 80px;
+    text-align: center;
+}
+
+.features-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.features-hero p {
+    font-size: 1.25rem;
+    color: #7F8C8D;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.feature-category {
+    padding: 80px 0;
+}
+
+.feature-category:nth-child(even) {
+    background: #F8F9FA;
+}
+
+.feature-category h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.feature-category p.lead {
+    font-size: 1.125rem;
+    color: #7F8C8D;
+    margin-bottom: 3rem;
+}
+
+.feature-detail {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    height: 100%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.feature-detail:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    border-color: var(--primary-color);
+}
+
+.feature-icon-large {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.feature-detail h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.feature-detail p {
+    color: #7F8C8D;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    padding: 0.75rem 0;
+    display: flex;
+    align-items: start;
+    color: #5F6368;
+}
+
+.feature-list li i {
+    color: var(--success-color);
+    margin-right: 12px;
+    margin-top: 3px;
+    font-size: 1.125rem;
+}
+
+.feature-screenshot {
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    max-width: 100%;
+    height: auto;
+}
+
+.stats-section {
+    background: linear-gradient(135deg, var(--secondary-color), #34495E);
+    color: white;
+    padding: 80px 0;
+}
+
+.stat-box {
+    text-align: center;
+    padding: 2rem;
+}
+
+.stat-box h3 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-box p {
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.integration-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem 0;
+}
+
+.integration-logo {
+    width: 120px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s;
+}
+
+.integration-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.cta-feature {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-feature h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-feature p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="features-hero">
+    <div class="container">
+        <h1>Powerful Features for Modern Support</h1>
+        <p>Everything you need to deliver exceptional customer experiences with AI-powered automation</p>
+    </div>
+</section>
+
+<!-- AI Chatbot Features -->
+<section class="feature-category">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-flex align-items-center">
+                <div>
+                    <h2>AI-Powered Chatbot</h2>
+                    <p class="lead">Intelligent conversational AI that understands context and provides instant support 24/7</p>
+
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4>Natural Language Processing</h4>
+                        <p>Advanced NLP models understand customer intent and provide contextually relevant responses</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Multi-language support (50+ languages)</li>
+                            <li><i class="fas fa-check-circle"></i> Context-aware conversations</li>
+                            <li><i class="fas fa-check-circle"></i> Sentiment detection in real-time</li>
+                            <li><i class="fas fa-check-circle"></i> Automatic escalation to human agents</li>
+                            <li><i class="fas fa-check-circle"></i> Learning from past interactions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/chatbot-demo.png' %}" alt="Chatbot Demo" class="feature-screenshot">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ticket Management Features -->
+<section class="feature-category">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 order-lg-2 d-flex align-items-center">
+                <div>
+                    <h2>Smart Ticket Management</h2>
+                    <p class="lead">Automated ticket classification, routing, and prioritization powered by machine learning</p>
+
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h4>Intelligent Classification</h4>
+                        <p>BERT-based models automatically categorize and prioritize tickets with 95%+ accuracy</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Automatic category assignment</li>
+                            <li><i class="fas fa-check-circle"></i> Priority detection (Urgent/High/Medium/Low)</li>
+                            <li><i class="fas fa-check-circle"></i> Smart agent assignment</li>
+                            <li><i class="fas fa-check-circle"></i> SLA management and tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Duplicate ticket detection</li>
+                            <li><i class="fas fa-check-circle"></i> Custom workflows</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <img src="{% static 'images/ticket-management.png' %}" alt="Ticket Management" class="feature-screenshot">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sentiment Analysis Features -->
+<section class="feature-category">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-flex align-items-center">
+                <div>
+                    <h2>Advanced Sentiment Analysis</h2>
+                    <p class="lead">Multi-model ensemble approach for accurate emotion detection and customer satisfaction tracking</p>
+
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Real-Time Emotion Detection</h4>
+                        <p>Understand customer emotions and identify at-risk conversations before they escalate</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Multi-model analysis (RoBERTa, VADER, TextBlob)</li>
+                            <li><i class="fas fa-check-circle"></i> Real-time sentiment scoring</li>
+                            <li><i class="fas fa-check-circle"></i> Trend detection and alerts</li>
+                            <li><i class="fas fa-check-circle"></i> Customer risk scoring</li>
+                            <li><i class="fas fa-check-circle"></i> Satisfaction surveys</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/sentiment-analysis.png' %}" alt="Sentiment Analysis" class="feature-screenshot">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Analytics & Reporting -->
+<section class="feature-category">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 order-lg-2 d-flex align-items-center">
+                <div>
+                    <h2>Comprehensive Analytics</h2>
+                    <p class="lead">Real-time dashboards and insights to track performance and make data-driven decisions</p>
+
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Powerful Reporting</h4>
+                        <p>Visualize metrics, track KPIs, and generate custom reports with ease</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Real-time dashboards</li>
+                            <li><i class="fas fa-check-circle"></i> Agent performance tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Customer satisfaction metrics</li>
+                            <li><i class="fas fa-check-circle"></i> Response time analysis</li>
+                            <li><i class="fas fa-check-circle"></i> Export to PDF/CSV/Excel</li>
+                            <li><i class="fas fa-check-circle"></i> Custom report builder</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <img src="{% static 'images/analytics-dashboard.png' %}" alt="Analytics Dashboard" class="feature-screenshot">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Features Grid -->
+<section class="feature-category">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>More Powerful Features</h2>
+            <p class="lead">Everything you need in one platform</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h4>Multi-Tenant SaaS</h4>
+                    <p>Complete data isolation, custom branding, and independent configurations for each organization</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h4>Integrations</h4>
+                    <p>Connect with Slack, Teams, Zendesk, and 100+ tools via API and webhooks</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Enterprise Security</h4>
+                    <p>SOC 2 compliant, GDPR ready, with encryption at rest and in transit</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Mobile Responsive</h4>
+                    <p>Fully responsive design works perfectly on all devices and screen sizes</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h4>Team Collaboration</h4>
+                    <p>Internal notes, @mentions, assignments, and team workspaces</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>SLA Management</h4>
+                    <p>Set custom SLAs, track compliance, and get alerts for breaches</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h4>Knowledge Base</h4>
+                    <p>Build a comprehensive help center with articles, FAQs, and guides</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h4>Automation Rules</h4>
+                    <p>Create custom workflows and automate repetitive tasks</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-detail">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h4>Custom Branding</h4>
+                    <p>White-label solution with custom domain, logo, and colors</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>95%</h3>
+                    <p>Classification Accuracy</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>50%</h3>
+                    <p>Faster Response Times</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>99.9%</h3>
+                    <p>Uptime SLA</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h3>24/7</h3>
+                    <p>AI Support Available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Integrations Section -->
+<section class="feature-category">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Integrate With Your Favorite Tools</h2>
+            <p class="lead">Seamlessly connect with the tools you already use</p>
+        </div>
+
+        <div class="integration-logos">
+            <div class="integration-logo">
+                <i class="fab fa-slack fa-4x"></i>
+            </div>
+            <div class="integration-logo">
+                <i class="fab fa-microsoft fa-4x"></i>
+            </div>
+            <div class="integration-logo">
+                <i class="fab fa-google fa-4x"></i>
+            </div>
+            <div class="integration-logo">
+                <i class="fab fa-github fa-4x"></i>
+            </div>
+            <div class="integration-logo">
+                <i class="fab fa-jira fa-4x"></i>
+            </div>
+            <div class="integration-logo">
+                <i class="fab fa-salesforce fa-4x"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-feature">
+    <div class="container">
+        <h2>Ready to Transform Your Support?</h2>
+        <p>Join thousands of businesses using AI-powered customer support</p>
+        <div class="mt-4">
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-rocket"></i> Start Free Trial
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-calendar"></i> Schedule Demo
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

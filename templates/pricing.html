@@ -1,0 +1,657 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pricing - AI Customer Support Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+.pricing-hero {
+    background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%);
+    padding: 100px 0 50px;
+    text-align: center;
+}
+
+.pricing-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.pricing-hero p {
+    font-size: 1.25rem;
+    color: #7F8C8D;
+    margin-bottom: 2rem;
+}
+
+.billing-toggle {
+    display: inline-flex;
+    background: white;
+    border-radius: 50px;
+    padding: 5px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.billing-toggle button {
+    padding: 12px 30px;
+    border: none;
+    background: transparent;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.billing-toggle button.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+}
+
+.pricing-section {
+    padding: 80px 0;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid transparent;
+    position: relative;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.pricing-card.featured {
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.pricing-card.featured:hover {
+    transform: scale(1.05) translateY(-10px);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.pricing-header h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.pricing-header .plan-description {
+    color: #7F8C8D;
+    font-size: 0.9375rem;
+}
+
+.price {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.price-amount {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.price-currency {
+    font-size: 2rem;
+    vertical-align: super;
+}
+
+.price-period {
+    font-size: 1rem;
+    color: #7F8C8D;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    flex: 1;
+}
+
+.pricing-features li {
+    padding: 1rem 0;
+    display: flex;
+    align-items: start;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.pricing-features li:last-child {
+    border-bottom: none;
+}
+
+.pricing-features li i {
+    color: var(--success-color);
+    margin-right: 12px;
+    margin-top: 3px;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.pricing-features li.disabled {
+    opacity: 0.4;
+}
+
+.pricing-features li.disabled i {
+    color: #BDC3C7;
+}
+
+.pricing-cta {
+    margin-top: 2rem;
+}
+
+.pricing-cta .btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 50px;
+}
+
+.comparison-section {
+    padding: 80px 0;
+    background: #F8F9FA;
+}
+
+.comparison-table {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.comparison-table table {
+    width: 100%;
+    margin: 0;
+}
+
+.comparison-table th {
+    background: var(--secondary-color);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.comparison-table td {
+    padding: 1.25rem;
+    text-align: center;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.comparison-table tr:hover {
+    background: #F8F9FA;
+}
+
+.comparison-table .feature-name {
+    text-align: left;
+    font-weight: 500;
+}
+
+.faq-section {
+    padding: 80px 0;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.faq-item:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--secondary-color);
+}
+
+.faq-answer {
+    margin-top: 1rem;
+    color: #7F8C8D;
+    display: none;
+    line-height: 1.8;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-icon {
+    transition: transform 0.3s;
+    color: var(--primary-color);
+}
+
+.enterprise-cta {
+    background: linear-gradient(135deg, var(--secondary-color), #34495E);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.enterprise-cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.enterprise-cta p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.save-badge {
+    background: var(--success-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-left: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="pricing-hero">
+    <div class="container">
+        <h1>Simple, Transparent Pricing</h1>
+        <p>Choose the perfect plan for your business needs</p>
+
+        <div class="billing-toggle mt-4">
+            <button class="active" id="monthlyBtn">Monthly</button>
+            <button id="yearlyBtn">
+                Yearly <span class="save-badge">Save 20%</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Cards -->
+<section class="pricing-section">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Free Plan -->
+            <div class="col-lg-3">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <p class="plan-description">Perfect for trying out</p>
+                    </div>
+
+                    <div class="price">
+                        <span class="price-currency">$</span><span class="price-amount" data-monthly="0" data-yearly="0">0</span>
+                        <span class="price-period">per month</span>
+                    </div>
+
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> 1 Agent</li>
+                        <li><i class="fas fa-check-circle"></i> 100 Tickets/month</li>
+                        <li><i class="fas fa-check-circle"></i> Basic AI Chatbot</li>
+                        <li><i class="fas fa-check-circle"></i> Email Support</li>
+                        <li><i class="fas fa-check-circle"></i> Basic Analytics</li>
+                        <li class="disabled"><i class="fas fa-times-circle"></i> Sentiment Analysis</li>
+                        <li class="disabled"><i class="fas fa-times-circle"></i> API Access</li>
+                        <li class="disabled"><i class="fas fa-times-circle"></i> Custom Branding</li>
+                    </ul>
+
+                    <div class="pricing-cta">
+                        <a href="{% url 'register' %}" class="btn btn-outline-primary">Get Started Free</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basic Plan -->
+            <div class="col-lg-3">
+                <div class="pricing-card featured">
+                    <span class="pricing-badge">Most Popular</span>
+
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <p class="plan-description">For small teams</p>
+                    </div>
+
+                    <div class="price">
+                        <span class="price-currency">$</span><span class="price-amount" data-monthly="49" data-yearly="39">49</span>
+                        <span class="price-period">per month</span>
+                    </div>
+
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> 3 Agents</li>
+                        <li><i class="fas fa-check-circle"></i> 500 Tickets/month</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced AI Chatbot</li>
+                        <li><i class="fas fa-check-circle"></i> Sentiment Analysis</li>
+                        <li><i class="fas fa-check-circle"></i> Ticket Classification</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced Analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Knowledge Base</li>
+                        <li class="disabled"><i class="fas fa-times-circle"></i> Custom Integrations</li>
+                    </ul>
+
+                    <div class="pricing-cta">
+                        <a href="{% url 'register' %}" class="btn btn-primary">Start Free Trial</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Plan -->
+            <div class="col-lg-3">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <p class="plan-description">For growing businesses</p>
+                    </div>
+
+                    <div class="price">
+                        <span class="price-currency">$</span><span class="price-amount" data-monthly="149" data-yearly="119">149</span>
+                        <span class="price-period">per month</span>
+                    </div>
+
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> 10 Agents</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited Tickets</li>
+                        <li><i class="fas fa-check-circle"></i> Full AI Suite</li>
+                        <li><i class="fas fa-check-circle"></i> API Access</li>
+                        <li><i class="fas fa-check-circle"></i> Custom Integrations</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced Reporting</li>
+                        <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                        <li><i class="fas fa-check-circle"></i> Custom Branding</li>
+                    </ul>
+
+                    <div class="pricing-cta">
+                        <a href="{% url 'register' %}" class="btn btn-primary">Start Free Trial</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="col-lg-3">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <p class="plan-description">For large organizations</p>
+                    </div>
+
+                    <div class="price">
+                        <span class="price-amount" style="font-size: 2.5rem;">Custom</span>
+                        <span class="price-period">contact sales</span>
+                    </div>
+
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> Unlimited Agents</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited Everything</li>
+                        <li><i class="fas fa-check-circle"></i> Dedicated Instance</li>
+                        <li><i class="fas fa-check-circle"></i> Custom AI Models</li>
+                        <li><i class="fas fa-check-circle"></i> White-label Solution</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 Phone Support</li>
+                        <li><i class="fas fa-check-circle"></i> SLA Guarantee</li>
+                        <li><i class="fas fa-check-circle"></i> Dedicated Account Manager</li>
+                    </ul>
+
+                    <div class="pricing-cta">
+                        <a href="{% url 'contact' %}" class="btn btn-outline-primary">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Table -->
+<section class="comparison-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Feature Comparison</h2>
+            <p class="lead">Compare plans and find the right fit</p>
+        </div>
+
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Free</th>
+                        <th>Basic</th>
+                        <th>Professional</th>
+                        <th>Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Number of Agents</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>10</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Monthly Tickets</td>
+                        <td>100</td>
+                        <td>500</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">AI Chatbot</td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Sentiment Analysis</td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Auto Classification</td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Analytics Dashboard</td>
+                        <td>Basic</td>
+                        <td>Advanced</td>
+                        <td>Advanced</td>
+                        <td>Custom</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">API Access</td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Custom Integrations</td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Custom Branding</td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-times text-danger"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Support</td>
+                        <td>Email</td>
+                        <td>Email</td>
+                        <td>Priority</td>
+                        <td>24/7 Phone</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Frequently Asked Questions</h2>
+            <p class="lead">Got questions? We've got answers</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I change plans later?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate any charges.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there a free trial?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we offer a 14-day free trial for all paid plans. No credit card required to start.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and wire transfers for Enterprise plans.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I cancel anytime?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! There are no long-term contracts. You can cancel your subscription at any time from your account settings.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer discounts for nonprofits?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! We offer special pricing for nonprofits and educational institutions. Contact our sales team for more information.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What happens to my data if I cancel?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Your data is retained for 30 days after cancellation. You can export all your data before canceling or request it within the 30-day grace period.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enterprise CTA -->
+<section class="enterprise-cta">
+    <div class="container">
+        <h2>Need a Custom Solution?</h2>
+        <p>Talk to our sales team about Enterprise plans and custom features</p>
+        <div class="mt-4">
+            <a href="{% url 'contact' %}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-phone"></i> Contact Sales
+            </a>
+            <a href="#" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-calendar"></i> Schedule Demo
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Billing toggle
+    $('#monthlyBtn, #yearlyBtn').click(function() {
+        $('.billing-toggle button').removeClass('active');
+        $(this).addClass('active');
+
+        const isYearly = $(this).attr('id') === 'yearlyBtn';
+
+        $('.price-amount').each(function() {
+            const monthly = $(this).data('monthly');
+            const yearly = $(this).data('yearly');
+            $(this).text(isYearly ? yearly : monthly);
+        });
+
+        $('.price-period').text(isYearly ? 'per month, billed yearly' : 'per month');
+    });
+
+    // FAQ accordion
+    $('.faq-item').click(function() {
+        $(this).toggleClass('active');
+        $(this).siblings().removeClass('active');
+    });
+});
+</script>
+{% endblock %}

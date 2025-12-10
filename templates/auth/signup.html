@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up - AI Customer Support Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+.signup-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%);
+}
+
+.signup-card {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+
+.plan-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.plan-card {
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.plan-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.plan-card.selected {
+    border-color: var(--primary-color);
+    background: rgba(135, 206, 235, 0.1);
+}
+
+.plan-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.feature-list li {
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+}
+
+.feature-list i {
+    color: var(--success-color);
+    margin-right: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="signup-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="signup-card">
+                    <div class="text-center mb-4">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" height="50">
+                        <h2 class="mt-3">Get Started with AI Support</h2>
+                        <p class="text-muted">Choose your plan and create your account</p>
+                    </div>
+
+                    <!-- Plan Selection -->
+                    <div class="plan-selector mb-4">
+                        <div class="plan-card" data-plan="free">
+                            <h5>Free</h5>
+                            <div class="plan-price">$0</div>
+                            <small>per month</small>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> 1 Agent</li>
+                                <li><i class="fas fa-check"></i> 100 Tickets/mo</li>
+                                <li><i class="fas fa-check"></i> Basic Chatbot</li>
+                            </ul>
+                        </div>
+
+                        <div class="plan-card selected" data-plan="basic">
+                            <span class="badge bg-primary">Popular</span>
+                            <h5>Basic</h5>
+                            <div class="plan-price">$49</div>
+                            <small>per month</small>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> 3 Agents</li>
+                                <li><i class="fas fa-check"></i> 500 Tickets/mo</li>
+                                <li><i class="fas fa-check"></i> AI Analytics</li>
+                            </ul>
+                        </div>
+
+                        <div class="plan-card" data-plan="professional">
+                            <h5>Professional</h5>
+                            <div class="plan-price">$149</div>
+                            <small>per month</small>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> 10 Agents</li>
+                                <li><i class="fas fa-check"></i> Unlimited Tickets</li>
+                                <li><i class="fas fa-check"></i> Full AI Suite</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <form method="post" id="signupForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_plan" id="selectedPlan" value="basic">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name *</label>
+                                <label>
+                                    <input type="text" class="form-control" name="first_name" required>
+                                </label>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name *</label>
+                                <label>
+                                    <input type="text" class="form-control" name="last_name" required>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Company Name *</label>
+                            <label>
+                                <input type="text" class="form-control" name="company_name" required>
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Work Email *</label>
+                            <label>
+                                <input type="email" class="form-control" name="email" required>
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Username *</label>
+                            <label>
+                                <input type="text" class="form-control" name="username" required>
+                            </label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Password *</label>
+                                <label for="password"></label><input type="password" class="form-control" name="password" id="password" required>
+                                <small class="text-muted">Min. 8 characters</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Confirm Password *</label>
+                                <label>
+                                    <input type="password" class="form-control" name="password_confirm" required>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <label>
+                                <input type="tel" class="form-control" name="phone">
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Subscribe to newsletter for updates and tips
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">
+                            <i class="fas fa-rocket"></i> Create Account
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <p>Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+$(document).ready(function() {
+    // Plan selection
+    $('.plan-card').click(function() {
+        $('.plan-card').removeClass('selected');
+        $(this).addClass('selected');
+        $('#selectedPlan').val($(this).data('plan'));
+    });
+
+    // Form submission
+    $('#signupForm').submit(function(e) {
+        e.preventDefault();
+
+        const password = $('[name="password"]').val();
+        const passwordConfirm = $('[name="password_confirm"]').val();
+
+        if (password !== passwordConfirm) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters');
+            return;
+        }
+
+        // Submit via AJAX
+        $.ajax({
+            url: '/api/tenants/register/register/',
+            method: 'POST',
+            contentType: 'application/json',
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            data: JSON.stringify({
+                first_name: $('[name="first_name"]').val(),
+                last_name: $('[name="last_name"]').val(),
+                email: $('[name="email"]').val(),
+                username: $('[name="username"]').val(),
+                password: password,
+                password_confirm: passwordConfirm,
+                company_name: $('[name="company_name"]').val(),
+                phone: $('[name="phone"]').val(),
+                plan: $('#selectedPlan').val()
+            }),
+            success: function() {
+                alert('Registration successful! Check your email to verify your account.');
+                window.location.href = '/auth/login/';
+            },
+            error: function(xhr) {
+                alert('Registration failed. Please try again.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% load static %}
+<footer class="footer mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Company Info -->
+            <div class="col-lg-4 mb-4">
+                <h5 class="mb-3">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" height="30" class="me-2">
+                    AI Support Platform
+                </h5>
+                <p class="text-light-gray">
+                    Transform your customer support with AI-powered chatbots, intelligent ticket classification,
+                    and real-time sentiment analytics.
+                </p>
+                <div class="social-links mt-3">
+                    <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-github fa-lg"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-youtube fa-lg"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="mb-3">Product</h5>
+                <ul class="footer-links">
+                    <li><a href="{% url 'features' %}">Features</a></li>
+                    <li><a href="{% url 'pricing' %}">Pricing</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Integrations</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="mb-3">Company</h5>
+                <ul class="footer-links">
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="#">Partners</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="mb-3">Resources</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Webinars</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="mb-3">Legal</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR</a></li>
+                    <li><a href="#">Compliance</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center">
+            <p class="mb-0">&copy; 2025 AI Customer Support Platform. All rights reserved.</p>
+            <p class="small text-light-gray">Built with Django, Python ML, and Modern AI Technologies</p>
+        </div>
+    </div>
+</footer>

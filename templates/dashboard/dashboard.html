@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - AI Customer Support Platform{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1>Dashboard</h1>
+                    <p class="text-muted">Real-time support metrics and insights</p>
+                </div>
+                <div class="col-auto">
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="period" id="today" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="today">Today</label>
+
+                        <input type="radio" class="btn-check" name="period" id="week" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="week">Week</label>
+
+                        <input type="radio" class="btn-check" name="period" id="month" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="month">Month</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="container-fluid mt-4">
+        <div class="row g-4">
+            <!-- Total Tickets -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalTickets">0</h3>
+                        <p>Total Tickets</p>
+                        <small class="text-muted">+12% from last week</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resolved -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon bg-success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="resolvedTickets">0</h3>
+                        <p>Resolved</p>
+                        <small class="text-muted">87% resolution rate</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Avg Response Time -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon bg-warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="avgResponseTime">0m</h3>
+                        <p>Avg Response Time</p>
+                        <small class="text-muted">-8% improvement</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Satisfaction -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon bg-info">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="customerSatisfaction">0</h3>
+                        <p>CSAT Score</p>
+                        <small class="text-muted">Above target</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row g-4 mt-4">
+            <!-- Ticket Trends -->
+            <div class="col-lg-8">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5>Ticket Trends</h5>
+                        <div class="chart-actions">
+                            <button class="btn btn-sm btn-outline-primary">Export</button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="ticketChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentiment Analysis -->
+            <div class="col-lg-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5>Sentiment Distribution</h5>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row g-4 mt-4">
+            <div class="col-lg-8">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5>Recent Activity</h5>
+                        <a href="{% url 'tickets:list' %}" class="btn btn-sm btn-link">View All</a>
+                    </div>
+                    <div class="chart-body p-0">
+                        <div class="activity-list" id="recentActivity">
+                            <!-- Activity items loaded via AJAX -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Agents -->
+            <div class="col-lg-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5>Top Performers</h5>
+                    </div>
+                    <div class="chart-body">
+                        <div class="agent-list" id="topAgents">
+                            <!-- Agent list loaded via AJAX -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Load dashboard data
+    loadDashboardMetrics();
+    loadTicketChart();
+    loadSentimentChart();
+    loadRecentActivity();
+    loadTopAgents();
+
+    // Auto-refresh every 30 seconds
+    setInterval(loadDashboardMetrics, 30000);
+
+    function loadDashboardMetrics() {
+        $.ajax({
+            url: '/api/analytics/overview/',
+            method: 'GET',
+            success: function(data) {
+                $('#totalTickets').text(data.tickets.total);
+                $('#resolvedTickets').text(data.tickets.resolved);
+                $('#avgResponseTime').text(Math.round(data.tickets.avg_resolution_hours * 60) + 'm');
+                $('#customerSatisfaction').text(data.chatbot.avg_sentiment.toFixed(1));
+            }
+        });
+    }
+
+    function loadTicketChart() {
+        $.ajax({
+            url: '/api/analytics/trends/',
+            method: 'GET',
+            success: function(data) {
+                const ctx = document.getElementById('ticketChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.tickets.dates.map(date => new Date(date).toLocaleDateString()),
+                        datasets: [{
+                            label: 'Tickets',
+                            data: data.tickets.counts,
+                            borderColor: '#87CELEB',
+                            backgroundColor: 'rgba(135, 206, 235, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function loadSentimentChart() {
+        $.ajax({
+            url: '/api/analytics/overview/',
+            method: 'GET',
+            success: function(data) {
+                const ctx = document.getElementById('sentimentChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(data.sentiment_distribution),
+                        datasets: [{
+                            data: Object.values(data.sentiment_distribution),
+                            backgroundColor: [
+                                '#27AE60',
+                                '#F39C12',
+                                '#E74C3C'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function loadRecentActivity() {
+        $.ajax({
+            url: '/api/tickets/?ordering=-updated_at&page_size=5',
+            method: 'GET',
+            success: function(data) {
+                const activityHtml = data.results.map(ticket => `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>${ticket.title}</h6>
+                            <p>Ticket #${ticket.ticket_id} - ${ticket.status}</p>
+                            <small class="text-muted">${new Date(ticket.updated_at).toLocaleString()}</small>
+                        </div>
+                    </div>
+                `).join('');
+                $('#recentActivity').html(activityHtml);
+            }
+        });
+    }
+
+    function loadTopAgents() {
+        $.ajax({
+            url: '/api/analytics/agent_performance/',
+            method: 'GET',
+            success: function(data) {
+                const agentHtml = data.slice(0, 5).map(agent => `
+                    <div class="agent-item">
+                        <div class="agent-avatar">
+                            ${agent.assigned_agent__first_name ? agent.assigned_agent__first_name[0] : '?'}
+                        </div>
+                        <div class="agent-info">
+                            <h6>${agent.assigned_agent__first_name} ${agent.assigned_agent__last_name}</h6>
+                            <p>${agent.tickets_resolved} tickets resolved</p>
+                        </div>
+                    </div>
+                `).join('');
+                $('#topAgents').html(agentHtml);
+            }
+        });
+    }
+});
+</script>

@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Customer Support Platform - Intelligent Support Solutions{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Transform Your Customer Support with <span class="gradient-text">AI Power</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Multi-tenant AI Customer Support Platform with intelligent chatbots, automated ticket classification, and real-time sentiment analytics
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'register' %}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-rocket"></i> Get Started Free
+                        </a>
+                        <a href="#features" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-eye"></i> View Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image">
+                    <img src="{% static 'images/hero-dashboard.png' %}" alt="AI Dashboard" class="img-fluid floating">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Powerful Features for Modern Support</h2>
+                <p class="section-subtitle">Everything you need to deliver exceptional customer experiences</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- AI Chatbot -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Chatbot</h3>
+                    <p>Intelligent chatbot with natural language processing, sentiment analysis, and contextual understanding for 24/7 customer support</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-success"></i> Multi-language support</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Context-aware responses</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Seamless escalation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ticket Classification -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>Smart Ticket Classification</h3>
+                    <p>Automatically categorize and prioritize tickets using advanced machine learning algorithms for efficient routing</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-success"></i> BERT-based classification</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Priority detection</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Auto-assignment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sentiment Analytics -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Sentiment Analytics</h3>
+                    <p>Real-time sentiment analysis with multi-model ensemble approach for comprehensive customer emotion tracking</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-success"></i> Multi-model analysis</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Trend detection</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Alert system</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Multi-Tenant -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Multi-Tenant Architecture</h3>
+                    <p>Scalable SaaS platform with isolated tenant data, custom branding, and role-based access control</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-success"></i> Data isolation</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Custom branding</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Role management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>Advanced Dashboard</h3>
+                    <p>Comprehensive analytics dashboard with real-time metrics, performance insights, and customizable reports</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-success"></i> Real-time metrics</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Custom reports</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Export capabilities</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Integrations -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Seamless Integrations</h3>
+                    <p>Connect with popular tools like Slack, Microsoft Teams, Zendesk, and more for unified support experience</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-success"></i> API webhooks</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Third-party apps</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Custom integrations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="pricing-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Choose Your Plan</h2>
+                <p class="section-subtitle">Start free and scale as you grow</p>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Free Plan -->
+            <div class="col-md-6 col-lg-3">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="price">$0<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 1 Agent</li>
+                        <li><i class="fas fa-check"></i> 100 Tickets/month</li>
+                        <li><i class="fas fa-check"></i> Basic AI Chatbot</li>
+                        <li><i class="fas fa-check"></i> Email Support</li>
+                        <li><i class="fas fa-times text-muted"></i> Sentiment Analysis</li>
+                        <li><i class="fas fa-times text-muted"></i> API Access</li>
+                    </ul>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary w-100">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Basic Plan -->
+            <div class="col-md-6 col-lg-3">
+                <div class="pricing-card featured">
+                    <div class="pricing-header">
+                        <span class="badge bg-primary">Popular</span>
+                        <h3>Basic</h3>
+                        <div class="price">$49<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 3 Agents</li>
+                        <li><i class="fas fa-check"></i> 500 Tickets/month</li>
+                        <li><i class="fas fa-check"></i> Advanced AI Chatbot</li>
+                        <li><i class="fas fa-check"></i> Sentiment Analysis</li>
+                        <li><i class="fas fa-check"></i> Ticket Classification</li>
+                        <li><i class="fas fa-times text-muted"></i> Custom Integrations</li>
+                    </ul>
+                    <a href="{% url 'register' %}" class="btn btn-primary w-100">Start Free Trial</a>
+                </div>
+            </div>
+
+            <!-- Professional Plan -->
+            <div class="col-md-6 col-lg-3">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="price">$149<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 10 Agents</li>
+                        <li><i class="fas fa-check"></i> Unlimited Tickets</li>
+                        <li><i class="fas fa-check"></i> Full AI Suite</li>
+                        <li><i class="fas fa-check"></i> API Access</li>
+                        <li><i class="fas fa-check"></i> Custom Integrations</li>
+                        <li><i class="fas fa-check"></i> Priority Support</li>
+                    </ul>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-primary w-100">Contact Sales</a>
+                </div>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="col-md-6 col-lg-3">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">Custom<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Unlimited Agents</li>
+                        <li><i class="fas fa-check"></i> Unlimited Tickets</li>
+                        <li><i class="fas fa-check"></i> Dedicated Instance</li>
+                        <li><i class="fas fa-check"></i> Custom AI Models</li>
+                        <li><i class="fas fa-check"></i> 24/7 Support</li>
+                        <li><i class="fas fa-check"></i> SLA Guarantee</li>
+                    </ul>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-primary w-100">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>Ready to Transform Your Customer Support?</h2>
+                <p>Join thousands of businesses using AI-powered support</p>
+                <div class="cta-buttons">
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg me-3">
+                        Start Free Trial
+                    </a>
+                    <a href="{% url 'demo' %}" class="btn btn-outline-light btn-lg">
+                        Request Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

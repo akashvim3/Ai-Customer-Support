@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Ticket, TicketComment, TicketAttachment
+from django.utils import timezone
+from .models import Ticket, TicketComment, TicketAttachment, TicketHistory
 from chatbot.serializers import SentimentSerializer
 
 
@@ -87,3 +88,39 @@ class TicketSerializer(serializers.ModelSerializer):
 
         return ticket
 
+
+class TicketCommentSerializer(serializers.ModelSerializer):
+    """Serializer for ticket comments"""
+    author_name = serializers.CharField(source='author.get_full_name', read_only=True)
+    
+    class Meta:
+        model = TicketComment
+        fields = [
+            'id', 'ticket', 'author', 'author_name', 'content', 
+            'is_internal', 'is_automated', 'created_at', 'updated_at',
+            'sentiment_analysis'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'sentiment_analysis']
+
+
+class TicketAttachmentSerializer(serializers.ModelSerializer):
+    """Serializer for ticket attachments"""
+    filename = serializers.CharField(read_only=True)
+    file_size_display = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = TicketAttachment
+        fields = [
+            'id', 'ticket', 'file', 'filename', 'file_size', 
+            'mime_type', 'uploaded_by', 'uploaded_at', 'file_size_display'
+        ]
+        read_only_fields = ['id', 'filename', 'file_size', 'mime_type', 'uploaded_at']
+    
+    def get_file_size_display(self, obj):
+        """Display file size in human readable format"""
+        size = obj.file_size
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if size < 1024.0:
+                return f"{size:.1f} {unit}"
+            size /= 1024.0
+        return f"{size:.1f} TB"

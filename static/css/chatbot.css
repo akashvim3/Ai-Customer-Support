@@ -1,11 +1,11 @@
 /* Chatbot Widget Styles */
 :root {
-    --chatbot-primary: #87CEEB;
-    --chatbot-primary-dark: #5DADE2;
-    --chatbot-secondary: #2C3E50;
-    --chatbot-text: #2C3E50;
-    --chatbot-light: #ECF0F1;
-    --chatbot-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    --chatbot-primary: var(--primary-color);
+    --chatbot-primary-dark: var(--primary-dark);
+    --chatbot-secondary: #000000;
+    --chatbot-text: #000000;
+    --chatbot-light: var(--light-color);
+    --chatbot-shadow: var(--shadow-heavy);
 }
 
 /* Chatbot Container */

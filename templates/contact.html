@@ -1,41 +1,178 @@
 {% extends 'base.html' %}
-{% block title %}Contact Us{% endblock %}
+{% load static %}
+
+{% block title %}Contact Us - Get in Touch with Our Team{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
 {% block content %}
-<section class="py-5">
+<!-- Contact Hero Section -->
+<section class="contact-hero">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-6 mx-auto">
-                <h1 class="text-center mb-4">Contact Us</h1>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <label>
-                            <input type="text" class="form-control" name="name" required>
-                        </label>
+        <div class="contact-hero-content">
+            <h1>Get In Touch</h1>
+            <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Info Section -->
+<section class="contact-info-section">
+    <div class="container">
+        <div class="contact-info-grid">
+            <div class="contact-card">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Our Location</h3>
+                <p>123 Business Avenue</p>
+                <p>Tech District, CA 90210</p>
+                <a href="#">Get Directions</a>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h3>Call Us</h3>
+                <p>+1 (555) 123-4567</p>
+                <p>Mon-Fri 9:00 AM - 6:00 PM</p>
+                <a href="tel:+15551234567">Call Now</a>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Email Us</h3>
+                <p>support@company.com</p>
+                <p>contact@company.com</p>
+                <a href="mailto:support@company.com">Send Email</a>
+            </div>
+        </div>
+        
+        <!-- Social Media Links -->
+        <div class="social-links">
+            <a href="#" class="social-link" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-link" title="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link" title="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="social-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="contact-form-section">
+    <div class="container">
+        <div class="contact-form-container">
+            <div class="contact-form-header">
+                <h2>Send Us a Message</h2>
+                <p>Fill out the form below and our team will get back to you within 24 hours.</p>
+            </div>
+            
+            <form method="post" id="contactForm">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your full name">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <label>
-                            <input type="email" class="form-control" name="email" required>
-                        </label>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="your.email@example.com">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Subject</label>
-                        <label>
-                            <input type="text" class="form-control" name="subject" required>
-                        </label>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Message</label>
-                        <label>
-                            <textarea class="form-control" name="message" rows="5" required></textarea>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
-                </form>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required placeholder="What is this regarding?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message *</label>
+                    <textarea class="form-control" id="message" name="message" rows="6" required placeholder="Tell us how we can help you..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section">
+    <div class="map-placeholder">
+        <div>
+            <div style="font-size: 2rem; margin-bottom: 1rem;">📍</div>
+            <div>Interactive Map</div>
+            <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.7;">Location Map Would Appear Here</div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <div class="faq-container">
+            <div class="faq-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about our services</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How quickly do you respond to inquiries?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We typically respond to all inquiries within 24 hours during business days. For urgent matters, please call our direct support line.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What support channels do you offer?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We offer multiple support channels including live chat, email support, phone support, and our comprehensive knowledge base with tutorials and guides.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you provide international support?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we provide support to customers worldwide. Our support team works across different time zones to accommodate international clients.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are your business hours?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Our standard business hours are Monday through Friday, 9:00 AM to 6:00 PM EST. Emergency support is available 24/7 for critical issues.</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/contact.js' %}"></script>
 {% endblock %}

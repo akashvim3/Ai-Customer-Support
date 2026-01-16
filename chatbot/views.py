@@ -9,8 +9,9 @@ from .serializers import (
     ChatMessageSerializer, ChatResponseSerializer,
     KnowledgeBaseSerializer
 )
-from .ai_engine import chatbot_engine
-from .sentiment_analyzer import sentiment_analyzer
+# TODO: Re-enable AI engine when models are properly configured
+# from .ai_engine import chatbot_engine
+# from .sentiment_analyzer import sentiment_analyzer
 
 
 class ChatbotViewSet(viewsets.ViewSet):
@@ -42,17 +43,20 @@ class ChatbotViewSet(viewsets.ViewSet):
             message_type='user'
         )
 
-        # Analyze sentiment
-        sentiment_result = sentiment_analyzer.analyze(message_text)
-        user_message.sentiment = sentiment_result['sentiment']
-        user_message.sentiment_score = sentiment_result['score']
+        # TODO: Re-enable sentiment analysis when AI engine is ready
+        # For now, use basic sentiment detection
+        user_message.sentiment = self._detect_basic_sentiment(message_text)
+        user_message.sentiment_score = self._calculate_sentiment_score(message_text)
         user_message.save()
 
-        # Generate AI response
-        ai_response = chatbot_engine.generate_response(
-            user_message=message_text,
-            conversation_id=str(conversation.id)
-        )
+        # Generate basic AI-like response
+        ai_response = self._generate_basic_response(message_text, conversation)
+        
+        # TODO: Re-enable advanced AI when ready
+        # ai_response = chatbot_engine.generate_response(
+        #     user_message=message_text,
+        #     conversation_id=str(conversation.id)
+        # )
 
         # Create bot message
         bot_message = Message.objects.create(
@@ -67,8 +71,10 @@ class ChatbotViewSet(viewsets.ViewSet):
         # Update conversation sentiment
         self._update_conversation_sentiment(conversation)
 
-        # Check if escalation needed
-        should_escalate, reason = chatbot_engine.should_escalate(conversation)
+        # Check if escalation needed - temporarily disabled
+        # should_escalate, reason = chatbot_engine.should_escalate(conversation)
+        should_escalate = False
+        reason = ''
         if should_escalate and not conversation.escalated_to_human:
             conversation.escalated_to_human = True
             conversation.escalation_reason = reason
@@ -79,8 +85,8 @@ class ChatbotViewSet(viewsets.ViewSet):
             'response': ai_response['response'],
             'intent': ai_response['intent'],
             'confidence': ai_response['confidence'],
-            'sentiment': sentiment_result['sentiment'],
-            'sentiment_score': sentiment_result['score'],
+            'sentiment': 'neutral',
+            'sentiment_score': 0.0,
             'suggestions': ai_response['suggestions'],
             'should_escalate': should_escalate
         }
@@ -103,6 +109,96 @@ class ChatbotViewSet(viewsets.ViewSet):
                 conversation.overall_sentiment = 'neutral'
 
             conversation.save()
+
+    def _detect_basic_sentiment(self, message_text):
+        """Basic sentiment detection without AI"""
+        message_lower = message_text.lower()
+        positive_words = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'perfect', 'love', 'like', 'happy', 'pleased']
+        negative_words = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'dislike', 'angry', 'frustrated', 'annoyed', 'problem']
+        
+        positive_count = sum(1 for word in positive_words if word in message_lower)
+        negative_count = sum(1 for word in negative_words if word in message_lower)
+        
+        if positive_count > negative_count:
+            return 'positive'
+        elif negative_count > positive_count:
+            return 'negative'
+        else:
+            return 'neutral'
+
+    def _calculate_sentiment_score(self, message_text):
+        """Calculate basic sentiment score"""
+        message_lower = message_text.lower()
+        positive_words = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'perfect', 'love', 'like', 'happy', 'pleased']
+        negative_words = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'dislike', 'angry', 'frustrated', 'annoyed', 'problem']
+        
+        positive_count = sum(1 for word in positive_words if word in message_lower)
+        negative_count = sum(1 for word in negative_words if word in message_lower)
+        
+        # Simple scoring: -1 to 1 range
+        total_emotional_words = positive_count + negative_count
+        if total_emotional_words == 0:
+            return 0.0
+        
+        score = (positive_count - negative_count) / total_emotional_words
+        return round(score, 2)
+
+    def _generate_basic_response(self, message_text, conversation):
+        """Generate basic contextual responses"""
+        message_lower = message_text.lower()
+        
+        # Greeting responses
+        greetings = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening']
+        if any(greeting in message_lower for greeting in greetings):
+            return {
+                'response': "Hello! I'm your AI support assistant. How can I help you today?",
+                'intent': 'greeting',
+                'confidence': 0.9,
+                'entities': {},
+                'suggestions': ['Track my order', 'Billing question', 'Technical support', 'General inquiry']
+            }
+        
+        # Order tracking
+        order_keywords = ['order', 'tracking', 'shipment', 'delivery', 'package']
+        if any(keyword in message_lower for keyword in order_keywords):
+            return {
+                'response': "I'd be happy to help you track your order. Could you please provide your order number?",
+                'intent': 'order_tracking',
+                'confidence': 0.8,
+                'entities': {},
+                'suggestions': ['Order #12345', 'Recent orders', 'Delivery status']
+            }
+        
+        # Billing questions
+        billing_keywords = ['bill', 'payment', 'charge', 'invoice', 'refund', 'credit']
+        if any(keyword in message_lower for keyword in billing_keywords):
+            return {
+                'response': "I can help with billing questions. What specific billing issue are you experiencing?",
+                'intent': 'billing_inquiry',
+                'confidence': 0.8,
+                'entities': {},
+                'suggestions': ['Payment failed', 'Wrong charge', 'Request refund', 'Invoice needed']
+            }
+        
+        # Technical support
+        tech_keywords = ['error', 'bug', 'issue', 'problem', 'broken', 'not working', 'help']
+        if any(keyword in message_lower for keyword in tech_keywords):
+            return {
+                'response': "I understand you're experiencing a technical issue. Can you describe the problem you're facing?",
+                'intent': 'technical_support',
+                'confidence': 0.7,
+                'entities': {},
+                'suggestions': ['Website not loading', 'App crashing', 'Feature broken', 'Account access']
+            }
+        
+        # Default response
+        return {
+            'response': "I'm here to help! Could you please provide more details about what you need assistance with?",
+            'intent': 'general_inquiry',
+            'confidence': 0.6,
+            'entities': {},
+            'suggestions': ['Track order', 'Billing help', 'Technical support', 'Speak to agent']
+        }
 
     @action(detail=False, methods=['post'])
     def end_conversation(self, request):

@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Message, Conversation
-from .sentiment_analyzer import sentiment_analyzer
+# from .sentiment_analyzer import sentiment_analyzer  # Temporarily disabled
 
 
 @receiver(post_save, sender=Message)
@@ -9,13 +9,13 @@ def analyze_message_sentiment(sender, instance, created, **kwargs):
     """Automatically analyze sentiment when new message is created"""
     if created and instance.message_type == 'user':
         try:
-            # Analyze sentiment
-            sentiment_result = sentiment_analyzer.analyze(instance.content)
-
-            # Update message
-            instance.sentiment = sentiment_result['sentiment']
-            instance.sentiment_score = sentiment_result['score']
-            instance.save(update_fields=['sentiment', 'sentiment_score'])
+            # Analyze sentiment - temporarily disabled
+            # sentiment_result = sentiment_analyzer.analyze(instance.content)
+            #
+            # # Update message
+            # instance.sentiment = sentiment_result['sentiment']
+            # instance.sentiment_score = sentiment_result['score']
+            # instance.save(update_fields=['sentiment', 'sentiment_score'])
 
             # Update conversation overall sentiment
             conversation = instance.conversation
@@ -29,10 +29,13 @@ def analyze_message_sentiment(sender, instance, created, **kwargs):
 def check_escalation_needed(sender, instance, **kwargs):
     """Check if conversation needs escalation"""
     if not instance.escalated_to_human and instance.is_active:
-        from .ai_engine import chatbot_engine
+        # from .ai_engine import chatbot_engine  # Temporarily disabled
 
         try:
-            should_escalate, reason = chatbot_engine.should_escalate(instance)
+            # should_escalate, reason = chatbot_engine.should_escalate(instance)
+            # Temporarily disabled AI escalation check
+            should_escalate = False
+            reason = ""
 
             if should_escalate:
                 instance.escalated_to_human = True

@@ -10,7 +10,6 @@ class Ticket(models.Model):
     Core ticket model for customer support requests
     """
     # Identifiers
-    meta = None
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ticket_id = models.CharField(max_length=50, unique=True, editable=False)
 
@@ -215,7 +214,15 @@ class SLAPolicy(models.Model):
     description = models.TextField(blank=True)
 
     # Conditions
-    priority = models.CharField(max_length=20, choices=Ticket.meta.get_field('priority').choices)
+    priority = models.CharField(
+        max_length=20,
+        choices=[
+            ('urgent', 'Urgent'),
+            ('high', 'High'),
+            ('medium', 'Medium'),
+            ('low', 'Low'),
+        ]
+    )
     category = models.CharField(max_length=100, blank=True)
 
     # Time targets (in hours)

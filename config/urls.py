@@ -4,6 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from config.views import CustomLoginView
 
 urlpatterns = [
     # Admin
@@ -17,9 +22,16 @@ urlpatterns = [
     path('contact/', TemplateView.as_view(template_name='contact.html'), name='contact'),
 
     # Authentication
-    path('auth/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
     path('register/', TemplateView.as_view(template_name='auth/register.html'), name='register'),
+    path('auth/login/', CustomLoginView.as_view(), name='login'),
+    path('auth/logout/', TemplateView.as_view(template_name='auth/logout.html'), name='logout'),
+    path('auth/password_change/', TemplateView.as_view(template_name='auth/password_change.html'), name='password_change'),
+    path('auth/password_change/done/', TemplateView.as_view(template_name='auth/password_change_done.html'), name='password_change_done'),
+    path('auth/password_reset/', TemplateView.as_view(template_name='auth/password_reset.html'), name='password_reset'),
+    path('auth/password_reset/done/', TemplateView.as_view(template_name='auth/password_reset_done.html'), name='password_reset_done'),
+    path('auth/reset/<uidb64>/<token>/', TemplateView.as_view(template_name='auth/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('auth/reset/done/', TemplateView.as_view(template_name='auth/password_reset_complete.html'), name='password_reset_complete'),
 
     # Dashboard
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
@@ -35,13 +47,14 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 
     # JWT Authentication
-    path('api/auth/', include('rest_framework_simplejson.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
-# Serve media files in development
+# Serve static and media files in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.BASE_DIR / 'static')
 
     # Debug toolbar
     import debug_toolbar

@@ -1,7 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
 import uuid
+
+# Use ArrayField for PostgreSQL, fallback to JSONField for SQLite
+if 'postgresql' in settings.DATABASES['default']['ENGINE']:
+    from django.contrib.postgres.fields import ArrayField
+else:
+    # Fallback for SQLite - use JSONField to store arrays
+    from django.db.models import JSONField as ArrayField
 
 
 class Conversation(models.Model):
@@ -62,8 +69,8 @@ class Conversation(models.Model):
         ]
 
     def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.messages = None
+        super().__init__(*args, **kwargs)
+        # Don't initialize messages here to avoid Django related field issues
 
     def __str__(self):
         return f"Conversation {self.session_id} - {self.started_at}"
@@ -126,7 +133,6 @@ class ChatbotKnowledgeBase(models.Model):
     """
     Knowledge base for chatbot responses
     """
-    objects = None
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # Question/Query

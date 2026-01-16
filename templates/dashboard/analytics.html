@@ -1,13 +1,13 @@
-{% extends 'dashboard/base_dashboard.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Analytics - AI Customer Support{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/analytics.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
-{% block dashboard_content %}
+{% block content %}
 <div class="analytics-container" id="analyticsContainer">
     <!-- Header -->
     <div class="analytics-header">

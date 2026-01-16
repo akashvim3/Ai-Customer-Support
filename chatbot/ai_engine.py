@@ -150,11 +150,11 @@ class AIchatbotEngine:
 
         # Email extraction
         import re
-        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b'
+        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         entities['email'] = re.findall(email_pattern, text)
 
         # Phone extraction
-        phone_pattern = r'\bd{3}[-.]?d{3}[-.]?d{4}\b'
+        phone_pattern = r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'
         entities['phone'] = re.findall(phone_pattern, text)
 
         return entities

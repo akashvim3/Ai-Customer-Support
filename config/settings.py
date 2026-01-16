@@ -22,57 +22,115 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # Multi-tenant configuration
-SHARED_APPS = [
-    'django_tenants',
-    'tenants',
-
-    'django.contrib.contenttypes',
-    'django.contrib.auth',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.admin',
-]
-
-TENANT_APPS = [
-    # Django apps
-    'django.contrib.contenttypes',
-    'django.contrib.auth',
-
-    # Third-party apps
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'corsheaders',
-    'django_filters',
-    'drf_spectacular',
-    'channels',
-
-    # Local apps
-    'chatbot',
-    'tickets',
-    'dashboard',
-    'analytics',
-]
-
-INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
-
+# Define tenant models for both environments
 TENANT_MODEL = "tenants.Tenant"
 TENANT_DOMAIN_MODEL = "tenants.Domain"
 
+if DEBUG:
+    # Use standard Django apps for local development
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'django.contrib.sites',
+        
+        # Third-party apps
+        'rest_framework',
+        'rest_framework_simplejwt',
+        'corsheaders',
+        'django_filters',
+        'drf_spectacular',
+        'channels',
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
+        
+        # Local apps
+        'chatbot',
+        'tickets',
+        'dashboard',
+        'analytics',
+        'tenants',
+    ]
+    
+    # Disable multi-tenant middleware for local development
+    MULTI_TENANT_ENABLED = False
+else:
+    # Multi-tenant configuration for production
+    SHARED_APPS = [
+        'django_tenants',
+        'tenants',
+
+        'django.contrib.contenttypes',
+        'django.contrib.auth',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'django.contrib.admin',
+        
+        # Allauth apps
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
+    ]
+
+    TENANT_APPS = [
+        # Django apps
+        'django.contrib.contenttypes',
+        'django.contrib.auth',
+
+        # Third-party apps
+        'rest_framework',
+        'rest_framework_simplejwt',
+        'corsheaders',
+        'django_filters',
+        'drf_spectacular',
+        'channels',
+
+        # Local apps
+        'chatbot',
+        'tickets',
+        'dashboard',
+        'analytics',
+    ]
+
+    INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+    MULTI_TENANT_ENABLED = True
+
 # Middleware
-MIDDLEWARE = [
-    'django_tenants.middleware.main.TenantMainMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+if DEBUG:
+    # Standard middleware for local development
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'allauth.account.middleware.AccountMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+else:
+    # Multi-tenant middleware for production
+    MIDDLEWARE = [
+        'django_tenants.middleware.main.TenantMainMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'allauth.account.middleware.AccountMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
 
 ROOT_URLCONF = 'config.urls'
 
@@ -98,20 +156,30 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 # Database with multi-tenant support
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': env('DB_NAME', default='ai_support_db'),
-        'USER': env('DB_USER', default='postgres'),
-        'PASSWORD': env('DB_PASSWORD', default='postgres'),
-        'HOST': env('DB_HOST', default='localhost'),
-        'PORT': env('DB_PORT', default='5432'),
+if DEBUG:
+    # Use SQLite for local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
-DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
-)
+    DATABASE_ROUTERS = ()
+else:
+    # Use PostgreSQL for production
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django_tenants.postgresql_backend',
+            'NAME': env('DB_NAME', default='ai_support_db'),
+            'USER': env('DB_USER', default='postgres'),
+            'PASSWORD': env('DB_PASSWORD', default='postgres'),
+            'HOST': env('DB_HOST', default='localhost'),
+            'PORT': env('DB_PORT', default='5432'),
+        }
+    }
+    DATABASE_ROUTERS = (
+        'django_tenants.routers.TenantSyncRouter',
+    )
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
